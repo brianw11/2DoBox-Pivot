@@ -3,7 +3,7 @@ $('.form__button').on('click', saveButton);
 $('.idea-cards').on('click', '.article__button-upvote', upVote);
 $('.idea-cards').on('click', '.article__button-downvote', downVote);
 $('.form__input').on('keyup', enableSaveButton)
-$('.section__input').on('keyup', searchFilter);
+$('.section__input').on('keyup', searchIdeas);
 
 function Card(title, body, id, quality) {
   this.title = title;
@@ -112,20 +112,13 @@ function downVote(event) {
 }
 
 
-function searchFilter(e) { 
-  var ideaArray = [];
-  var search = $(e.target).val().toLowerCase();
-  var filteredArray = ideaArray.filter(function(myObject) {
-    return myObject.body.toLowerCase().includes(search) || myObject.title.toLowerCase().includes(search);
-  });
-  $('.idea-cards').empty();
-  filteredArray.forEach(function (object, index) {
-    prependCard (filteredArray[index]);
-  }
-);
+function searchIdeas() {
+ var searchValue = $(this).val().toLowerCase();
+ $(".idea-cards .idea-article").filter(function () {
+   $(this).toggle($(this).text().toLowerCase().indexOf(searchValue) > -1)
+ });
+ addToLocal();
 };
-
-
 
 
 
