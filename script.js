@@ -11,7 +11,7 @@ function Card(title, body, id, quality) {
   this.title = title;
   this.body = body;
   this.id = id || $.now();
-  this.quality = quality || "swill";
+  this.quality = quality || "normal";   /*swill*/
 }
 
 $(document).ready(pullFromLocal);
@@ -86,14 +86,24 @@ function pullFromLocal() {
   }
 }
 
+
 function upVote(event) {
   var parentId = $(event.target).parent().attr('id');
   var currentQuality = $(event.target).siblings(".article__p-quality");
-  if (currentQuality.text() === 'swill') {
+  if (currentQuality.text() === 'normal') {
     $(currentQuality).text('plausible');
   } else if (currentQuality.text() === 'plausible') {
     $(currentQuality).text('GENIUS');
   }
+
+// function upVote(event) {
+//   var parentId = $(event.target).parent().attr('id');
+//   var currentQuality = $(event.target).siblings(".article__p-quality");
+//   if (currentQuality.text() === 'swill') {
+//     $(currentQuality).text('plausible');
+//   } else if (currentQuality.text() === 'plausible') {
+//     $(currentQuality).text('GENIUS');
+//   }
   var parsedCard = JSON.parse(localStorage.getItem(parentId));
   parsedCard.quality = $(currentQuality).text();
   localStorage.setItem(parsedCard.id, JSON.stringify(parsedCard));
