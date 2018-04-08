@@ -3,7 +3,9 @@ $('.form__button').on('click', saveButton);
 $('.idea-cards').on('click', '.article__button-upvote', upVote);
 $('.idea-cards').on('click', '.article__button-downvote', downVote);
 $('.form__input').on('keyup', enableSaveButton)
-$('.section__input').on('keyup', searchFilter);
+$('.section__input').on('keyup', searchIdeas);
+// $('.idea-cards').on('input', saveIdeaUpdates);
+$('.idea-cards').on('keyup', '.article__h2, .article__p-body', editText);
 
 function Card(title, body, id, quality) {
   this.title = title;
@@ -55,7 +57,6 @@ function clearFields() {
 }
 
 function enableSaveButton() {
-  console.log('cat')
   var saveButton = $(".form__button");
   var cardTitle = $(".form__input-title");
   var cardBody = $(".form__input-body");
@@ -112,19 +113,52 @@ function downVote(event) {
 }
 
 
-function searchFilter(e) { 
-  var ideaArray = [];
-  var search = $(e.target).val().toLowerCase();
-  var filteredArray = ideaArray.filter(function(myObject) {
-    return myObject.body.toLowerCase().includes(search) || myObject.title.toLowerCase().includes(search);
-  });
-  $('.idea-cards').empty();
-  filteredArray.forEach(function (object, index) {
-    prependCard (filteredArray[index]);
-  }
-);
+function searchIdeas() {
+ var searchValue = $(this).val().toLowerCase();
+ $(".idea-cards .idea-article").filter(function () {
+   $(this).toggle($(this).text().toLowerCase().indexOf(searchValue) > -1)
+ });
+ addToLocal();
 };
 
+function editText() {
+ var currentId = event.target.closest('.idea-article').id;
+ var parsedCard = JSON.parse(localStorage.getItem(currentId));
+ var newTitle = $(`#${currentId} .article__h2`).text();
+ var newDescription = $(`#${currentId} .article__p-body`).text();
+ parsedCard['title'] = newTitle;
+ parsedCard['body'] = newDescription;
+ addToLocal(parsedCard);
+}
+
+
+
+
+
+
+
+
+  
+
+// function saveIdeaUpdates(e) {
+//     console.log($(this))
+//     var updatedIdea = e.target.closest('.idea-article');  
+//     var updatedIdeaTitle = updatedIdea.querySelector('.form__input-title').text;
+//     var updatedIdeaBody = updatedIdea.querySelector('.form__input-body').text;
+//     var updatedIdeaId = updatedIdea.id;
+//     var existingIdeasString = localStorage.getItem(localStorage.key(i));  /*localStorage.key(i) */
+//     var existingIdeasObj = JSON.parse(existingIdeasString);
+
+//     for(i = 0; i < existingIdeasObj.length; i++) {
+//       var existingIdeaId = existingIdeasObj[i].id;
+
+//       if(existingIdeaId == updatedIdeaId) {
+//         existingIdeasObj[i].title = updatedIdeaTitle;
+//         existingIdeasObj[i].body = updatedIdeaBody;
+//       }
+//     }
+//     sendToStorage(existingIdeasObj)
+//   };
 
 
 
