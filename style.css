@@ -1,8 +1,8 @@
 body {
-  margin: 0;
-  padding:0;
   color: #6d6e71;
   font-family: 'Open Sans', sans-serif;
+  margin: 0;
+  padding:0;
   text-align: center;
 }
 
@@ -12,14 +12,14 @@ main {
 }
 
 article {
-  width: 60%;
   margin-left: 20%;
   text-align: left;
+  width: 60%;
 }
 
 .article__p-body {
-  font-size: 30px;
   color: #939598;
+  font-size: 30px;
   font-weight: 400;
 }
 
@@ -39,23 +39,23 @@ h1 {
 }
 
 form {
+  margin-left: 20%;
   text-align: center;
   width: 60%;
-  margin-left: 20%;
 }
 
 .form__input {
+  border: 2px solid #939598;
+  color: #939598;
   display: inline-block;
   font-family: 'Open Sans', sans-serif;
-  margin-bottom: 20px;
-  width: 98.5%;
-  border: 2px solid #939598;
+  font-size: 2em;
   height: 40px;
+  margin-bottom: 20px;
   padding-top: 1%;
   padding-bottom: 1%;
   padding-left: 1%;
-  font-size: 2em;
-  color: #939598;
+  width: 98.5%;
 }
 
 .form__input::placeholder {
@@ -64,12 +64,12 @@ form {
 }
 
 .section__input {
-  height: 40px;
-  font-family: 'Roboto Slab', serif;
-  width: 59%;
   border: 2px solid #939598;
+  font-family: 'Roboto Slab', serif;
   font-size: 2em;
+  height: 40px;
   padding: 10px;
+  width: 59%;
 }
 
 .section__input::placeholder {
@@ -78,35 +78,35 @@ form {
 }
 
 .form__button {
-  width: 100%;
-  height: 65px;
-  color: #fff;
   background-color: #00a79d; 
-  margin-bottom: 35px;
+  color: #fff;
   font-size: 2em;
+  height: 65px;
+  margin-bottom: 35px;
+  width: 100%;
 }
 
 .article__h2 {
   display: inline-block;
-  margin-bottom: 0;
   font-family: 'Roboto Slab', serif;
   font-size: 40px;
+  margin-bottom: 0;
 }
 
 .article__button {
   float: left;
   height: 50px;
-  width: 50px;
   margin-right: 30px;
+  width: 50px;
 }
 
 .article__button-delete {
-  float: right;
-  margin-top: 33px;
   background-image: url('Images/delete.svg');
-  height: 50px;
-  width: 50px;
   border: none;
+  float: right;
+  height: 50px;
+  margin-top: 33px;
+  width: 50px;
 }
 
 .article__button-delete:hover {
@@ -114,8 +114,8 @@ form {
 }
 
 hr {
-  width: 100%;
   margin-top: 110px;
+  width: 100%;
 }
 
 .article__button-upvote {
@@ -125,9 +125,9 @@ hr {
 
 .article__button-upvote:hover {
   background-image: url('Images/upvote-hover.svg');
+  border: none;
   height: 50px;
   width: 50px;
-  border: none;
 }
 
 .article__button-downvote {
@@ -137,9 +137,9 @@ hr {
 
 .article__button-downvote:hover {
   background-image: url('Images/downvote-hover.svg');
+  border: none;
   height: 50px;
   width: 50px;
-  border: none;
 }
 
 .quality {
@@ -149,11 +149,21 @@ hr {
   margin: 0px;
 }
 
+.completed {
+  float: right;
+  font-size: 20px;
+}
+
+.faded {
+  background-color: #ededed;
+  color: #a4a6a8;
+}
+
 @media only screen and (max-width: 650px) {
  
   form {
-    width: 90%;
     margin: 0 0 0 5%;
+    width: 90%;
   }
 
   .section__input {
@@ -161,8 +171,8 @@ hr {
   }
 
   .idea-article {
-    width: 90%;
     margin: 0 0 0 5%;
+    width: 90%;
   }
 
   .article__button {
@@ -177,7 +187,6 @@ hr {
 
   .quality {
     font-size: 30px;
-  }
 }
 
 @media only screen and (max-width: 374px) {

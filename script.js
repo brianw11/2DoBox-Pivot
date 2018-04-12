@@ -4,20 +4,36 @@ $('.idea-cards').on('click', '.article__button-upvote', upVote);
 $('.idea-cards').on('click', '.article__button-downvote', downVote);
 $('.form__input').on('keyup', enableSaveButton)
 $('.section__input').on('keyup', searchIdeas);
-// $('.idea-cards').on('input', saveIdeaUpdates);
 $('.idea-cards').on('keyup', '.article__h2, .article__p-body', editText);
+$('.completed').on('click', markAsComplete);
 
-function Card(title, body, id, quality) {
+function Card(title, body, id, quality, completed) {
   this.title = title;
   this.body = body;
   this.id = id || $.now();
-  this.quality = quality || "normal";   /*swill*/
+  this.quality = quality || "normal"; 
+  this.isCompleted = false; 
 }
 
 $(document).ready(pullFromLocal);
 
 function cardPrepend(newCard) {
-  $(".idea-cards").prepend(`
+  if(newCard.isCompleted) {
+    $(".idea-cards").prepend(`
+    <article class="idea-article ${'faded'}" id="${newCard.id}">
+        <h2 class="article__h2" contenteditable="true">${newCard.title}</h2>
+        <button class="article__button-delete"></button>
+        <p class="article__p-body" contenteditable="true">${newCard.body}</p>
+        <button class="article__button article__button-downvote"></button>
+        <button class="article__button article__button-upvote"></button>
+        <p class="quality">quality:\u00A0</p>
+        <p class="quality article__p-quality">${newCard.quality}</p>
+        <button class="completed" value="${newCard.completed}">Completed</button>
+        <hr>
+      </article>
+      `);
+  } else {
+    $(".idea-cards").prepend(`
     <article class="idea-article" id="${newCard.id}">
         <h2 class="article__h2" contenteditable="true">${newCard.title}</h2>
         <button class="article__button-delete"></button>
@@ -26,10 +42,44 @@ function cardPrepend(newCard) {
         <button class="article__button article__button-upvote"></button>
         <p class="quality">quality:\u00A0</p>
         <p class="quality article__p-quality">${newCard.quality}</p>
+        <button class="completed" value="${newCard.completed}">Completed</button>
         <hr>
       </article>
       `);
+  }
+  
   disableSaveButton();
+  attachClickHandler(newCard.id);
+}
+
+
+function markAsComplete() {
+ var cardId = $(this).parents('.idea-article').attr('id');
+ var currentCard = getItemFromLocalStorage(cardId);
+ var currentCompleted = $(event.target).siblings(".completed");
+  if(!currentCard.isCompleted) {
+    currentCard.isCompleted = true;
+  } else {
+    currentCard.isCompleted = false;
+  }
+  localStorage.setItem(currentCard.id, JSON.stringify(currentCard))
+   $(this).closest('article').toggleClass('faded');
+ addToLocal(currentCard);
+};
+
+function addToLocal(newCard) {
+  var stringifyObj = JSON.stringify(newCard);
+  localStorage.setItem(newCard.id, stringifyObj);
+}
+
+function attachClickHandler(id) {
+  var currentCard = $(`#${id} .completed`)
+  .on('click', markAsComplete);
+}
+
+function getItemFromLocalStorage(id) {
+  var parsedCard = JSON.parse(localStorage.getItem(id));
+  return parsedCard;
 }
 
 function deleteCard() {
@@ -43,7 +93,6 @@ function saveButton(e) {
   var cardTitle = $(".form__input-title");
   var cardBody = $(".form__input-body");
   var newCard = new Card(cardTitle.val(), cardBody.val());
-  // enableSaveButton();
   cardPrepend(newCard);
   addToLocal(newCard);
   clearFields();
@@ -72,20 +121,13 @@ function disableSaveButton() {
   saveButton.prop('disabled', true);
 }
 
-function addToLocal(newCard) {
-  var stringifyObj = JSON.stringify(newCard);
-  localStorage.setItem(newCard.id, stringifyObj);
-}
-
 function pullFromLocal() {
   for (i = 0; i < localStorage.length; i++) {
     var getCard = localStorage.getItem(localStorage.key(i));
     var newCard = JSON.parse(getCard);
     cardPrepend(newCard)
-
   }
 }
-
 
 function upVote(event) {
   var parentId = $(event.target).parent().attr('id');
@@ -95,15 +137,6 @@ function upVote(event) {
   } else if (currentQuality.text() === 'plausible') {
     $(currentQuality).text('GENIUS');
   }
-
-// function upVote(event) {
-//   var parentId = $(event.target).parent().attr('id');
-//   var currentQuality = $(event.target).siblings(".article__p-quality");
-//   if (currentQuality.text() === 'swill') {
-//     $(currentQuality).text('plausible');
-//   } else if (currentQuality.text() === 'plausible') {
-//     $(currentQuality).text('GENIUS');
-//   }
   var parsedCard = JSON.parse(localStorage.getItem(parentId));
   parsedCard.quality = $(currentQuality).text();
   localStorage.setItem(parsedCard.id, JSON.stringify(parsedCard));
@@ -143,32 +176,7 @@ function editText() {
 
 
 
-
-
-
-
-
   
-
-// function saveIdeaUpdates(e) {
-//     console.log($(this))
-//     var updatedIdea = e.target.closest('.idea-article');  
-//     var updatedIdeaTitle = updatedIdea.querySelector('.form__input-title').text;
-//     var updatedIdeaBody = updatedIdea.querySelector('.form__input-body').text;
-//     var updatedIdeaId = updatedIdea.id;
-//     var existingIdeasString = localStorage.getItem(localStorage.key(i));  /*localStorage.key(i) */
-//     var existingIdeasObj = JSON.parse(existingIdeasString);
-
-//     for(i = 0; i < existingIdeasObj.length; i++) {
-//       var existingIdeaId = existingIdeasObj[i].id;
-
-//       if(existingIdeaId == updatedIdeaId) {
-//         existingIdeasObj[i].title = updatedIdeaTitle;
-//         existingIdeasObj[i].body = updatedIdeaBody;
-//       }
-//     }
-//     sendToStorage(existingIdeasObj)
-//   };
 
 
 
